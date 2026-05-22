@@ -288,7 +288,6 @@ with tab_dashboard:
         st.session_state.get("breadth", {}),
         st.session_state.get("last_scan_meta"),
     )
-
 with tab_scanner:
     tab_scan.render(
         st.session_state.get("results", []),
@@ -296,33 +295,27 @@ with tab_scanner:
         st.session_state.get("scan_mode", "Swing"),
         st.session_state.get("signal_log", []),
     )
-
 with tab_sectors:
-    if st.session_state.get("tab_sectors_loaded") or st.session_state.results:
+    if st.session_state.get("tab_sectors_loaded") or st.session_state.get("results"):
         st.session_state["tab_sectors_loaded"] = True
-        tab_sec.render(st.session_state.results, st.session_state.scan_mode)
-
+        tab_sec.render(st.session_state.get("results", []), st.session_state.get("scan_mode", "Swing"))
 with tab_breadth:
-    if st.session_state.get("tab_breadth_loaded") or st.session_state.results:
+    if st.session_state.get("tab_breadth_loaded") or st.session_state.get("results"):
         st.session_state["tab_breadth_loaded"] = True
-        tab_brd.render(st.session_state.results, vix_val, st.session_state.scan_mode)
-
+        tab_brd.render(st.session_state.get("results", []), vix_val, st.session_state.get("scan_mode", "Swing"))
 with tab_detail:
-    if st.session_state.get("tab_detail_loaded") or st.session_state.results:
+    if st.session_state.get("tab_detail_loaded") or st.session_state.get("results"):
         st.session_state["tab_detail_loaded"] = True
-        tab_det.render(st.session_state.results, vix_val)
-
+        tab_det.render(st.session_state.get("results", []), vix_val)
 with tab_analytics:
-    if st.session_state.get("tab_analytics_loaded") or st.session_state.signal_log:
+    if st.session_state.get("tab_analytics_loaded") or st.session_state.get("signal_log"):
         st.session_state["tab_analytics_loaded"] = True
-        tab_ana.render(st.session_state.signal_log, st.session_state.scan_mode)
-
+        tab_ana.render(st.session_state.get("signal_log", []), st.session_state.get("scan_mode", "Swing"))
 with tab_portfolio:
     tab_pf.render(
         st.session_state.get("open_positions", []),
         vix_val,
         st.session_state.get("scan_mode", "Swing"),
     )
-
 with tab_settings:
     tab_stg.render()
