@@ -178,8 +178,10 @@ if scan_btn:
     from collections import defaultdict as _dd
     _breadth_now = compute_breadth(results)
     st.session_state["breadth"] = _breadth_now
+    from datetime import timezone, timedelta
+    _IST = timezone(timedelta(hours=5, minutes=30))
     st.session_state.scan_time=(
-        datetime.now().strftime("%H:%M:%S")+
+        datetime.now(_IST).strftime("%H:%M:%S IST")+
         f" ({universe_opt} · {mode_opt} · {elapsed:.0f}s)"
     )
     # v16.1: pre-compute Top5 once at scan time and persist it
