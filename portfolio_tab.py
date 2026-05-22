@@ -6,6 +6,12 @@ import pandas as pd
 from portfolio import run_exit_scan, add_position, score_exit
 from persistence import _db_save, _db_load
 from components import _action_colors, _phase_color
+from config import MODE_CFG
+from universe import SECTOR_MAP
+from data_fetch import fetch_vix
+from risk import (
+    EXIT_HOLD, EXIT_WATCH_LBL, EXIT_SIGNAL_LBL, EXIT_CONFIRM_LBL, EXIT_COLORS,
+)
 
 def render(positions, vix_val, scan_mode):
     """Render this tab. Call inside `with tab_X:`."""
