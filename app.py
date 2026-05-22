@@ -5,9 +5,11 @@ Run with: streamlit run app.py
 import streamlit as st
 from pathlib import Path
 
+import time
+from datetime import datetime
 from config import (
     MODE_CFG, VIX_CALM, VIX_CAUTION, VIX_STRESS,
-    _CACHE_DIR, LIQUIDITY_MIN_CR, PHASE_BRK, _SECTORS, NSE500,
+    _CACHE_DIR, LIQUIDITY_MIN_CR, PHASE_BRK, _SECTORS, NSE500, NIFTY50,
 )
 from data_fetch import (
     fetch_vix, fetch_nifty, fetch_indices, fetch_async,
@@ -204,8 +206,8 @@ if scan_btn:
         _db_ensure(_cur); _db_ensure_worker_tables(_cur); _conn.commit()
         _cur.execute(
             "INSERT INTO bs_regime_cache (mode, data) VALUES (%s, %s)",
-            [mode_opt, json.dumps({"bull": market_bullish, "label": _regime_label,
-                                   "ts": datetime.utcnow().isoformat()})]
+            [mode_opt, json.dumps({"bull": "BULL" in _regime_label.upper(), "label": _regime_label,
+                           "ts": datetime.utcnow().isoformat()})]
         )
         _cur.execute("""DELETE FROM bs_regime_cache WHERE id NOT IN (
                             SELECT id FROM bs_regime_cache ORDER BY ts DESC LIMIT 5)""")
