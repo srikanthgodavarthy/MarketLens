@@ -109,7 +109,7 @@ with gc4:
 with gc5:
     filter_opt=st.selectbox("Filter",
         ["BUY + STRONG BUY","STRONG BUY only","WATCH + BUY","PRE-CONFIRM","All Results"],
-        label_visibility="collapsed")
+        label_visibility="collapsed", key="filter_opt_topbar")
 with gc6:
     search_q=st.text_input("Search symbol",placeholder="e.g. RELIANCE",
                             label_visibility="collapsed")

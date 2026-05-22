@@ -81,7 +81,7 @@ def render(all_results, vix_val, vix_label, scan_mode, signal_log):
     results=list(st.session_state.get("results", []))
     fc1, fc2 = st.columns(2)
     with fc1:
-        filter_opt = st.selectbox("Filter", ["BUY + STRONG BUY","STRONG BUY only","WATCH + BUY","PRE-CONFIRM","All Results"], label_visibility="collapsed")
+        filter_opt = st.selectbox("Filter", ["BUY + STRONG BUY","STRONG BUY only","WATCH + BUY","PRE-CONFIRM","All Results"], label_visibility="collapsed", key="filter_opt_scanner_tab")
     with fc2:
         search_q = st.text_input("Search symbol", placeholder="e.g. RELIANCE", label_visibility="collapsed")
 
