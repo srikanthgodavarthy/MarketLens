@@ -19,8 +19,9 @@ from config import (
     SHORT_SKIP, SHORT_WATCH, SHORT_SIGNAL, SHORT_CONFIRMED,
     SHORT_SCORE_WATCH, SHORT_SCORE_SIGNAL, SHORT_SCORE_CONFIRMED,
     SHORT_HARD_WEIGHT, SHORT_SOFT_WEIGHT,
-    _SECTORS_LOOKUP,
+    _SECTORS_LOOKUP,_CACHE_DIR,
 )
+
 from universe import SECTOR_MAP
 from data_fetch import (
     batch_incremental_fetch, fetch_async, prefetch_htf_parallel, fetch_vix,
