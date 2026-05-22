@@ -4,18 +4,15 @@ dashboard.py — Dashboard tab renderer.
 import streamlit as st
 from datetime import datetime
 
-from config import MODE_CFG, _CACHE_DIR, PHASE_BRK, PHASE_CONT, PHASE_SETUP
-from data_fetch import fetch_indices, fetch_oi_data, _is_market_open
+from config import (
+    MODE_CFG, _CACHE_DIR, PHASE_BRK, PHASE_CONT, PHASE_SETUP,
+    REGIME_TREND, REGIME_EXPANSION, REGIME_DISTRIBUTION, REGIME_PANIC, REGIME_ROTATION,
+    _REGIME_ADJUSTMENTS,
+)
+from data_fetch import fetch_indices, fetch_oi_data, _is_market_open, fetch_vix, fetch_nifty
 from market import get_cached_regime
 from persistence import _compute_top5, _save_scan_cache, _load_scan_cache
 from components import _action_colors, _phase_color, _conf_color
-
-@st.cache_data(ttl=300, show_spinner=False)
-def _prewarm():
-    fetch_vix()
-    fetch_nifty("Swing")
-_prewarm()
-
 
 def render(all_results, breadth, last_scan_meta):
     """Render the Dashboard tab. Call inside `with tab_dashboard:`."""
