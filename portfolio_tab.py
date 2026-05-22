@@ -19,7 +19,7 @@ def render(positions, vix_val, scan_mode):
         ap_sym=pf1.text_input("Symbol",key="pf_sym").upper()
         ap_entry=pf2.number_input("Entry Price ₹",min_value=0.01,value=100.0,step=0.5,key="pf_ep")
         ap_qty=pf3.number_input("Qty",min_value=1,value=100,step=1,key="pf_qty")
-        ap_mode=pf4.selectbox("Mode",list(MODE_CFG.keys()),index=1,key="pf_mode")
+        ap_mode=pf4.selectbox("Mode",list(MODE_CFG.keys()),index=1,key="pf_mode_portfolio_tab")
         if st.button("Add",type="primary",key="pf_add_btn"):
             if ap_sym:
                 add_position(ap_sym,ap_entry,int(ap_qty),ap_mode)
