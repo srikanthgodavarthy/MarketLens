@@ -26,6 +26,7 @@ from universe import SECTOR_MAP
 from data_fetch import (
     batch_incremental_fetch, fetch_async, prefetch_htf_parallel, fetch_vix,
     fetch_nifty, fetch_indices, _cold_start_needed, _mark_cold_start_done,
+    _is_market_open,
 )
 from indicators import (
     stage_a_prefilter, ema, rsi, atr_series, to_nse,
