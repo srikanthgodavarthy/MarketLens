@@ -25,7 +25,7 @@ def render(all_results, vix_val, vix_label, scan_mode, signal_log):
     if not st.session_state.get("enrichment_ready", True):
         st.info("⏳ Pattern enrichment running in background — scores will update shortly.")
 
-    indices=fetch_indices(mode_opt)
+    indices=fetch_indices(scan_mode)
     oi_nifty=fetch_oi_data("NIFTY")
     oi_banknifty=fetch_oi_data("BANKNIFTY")
 
@@ -79,6 +79,12 @@ def render(all_results, vix_val, vix_label, scan_mode, signal_log):
 
     # ── Apply filters ──────────────────────────────────────────────────────────
     results=list(st.session_state.results)
+    fc1, fc2 = st.columns(2)
+    with fc1:
+        filter_opt = st.selectbox("Filter", ["BUY + STRONG BUY","STRONG BUY only","WATCH + BUY","PRE-CONFIRM","All Results"], label_visibility="collapsed")
+    with fc2:
+        search_q = st.text_input("Search symbol", placeholder="e.g. RELIANCE", label_visibility="collapsed")
+
     if filter_opt=="BUY + STRONG BUY": results=[r for r in results if r["Action"] in ("BUY","STRONG BUY")]
     elif filter_opt=="STRONG BUY only": results=[r for r in results if r["Action"]=="STRONG BUY"]
     elif filter_opt=="WATCH + BUY": results=[r for r in results if r["Action"] in ("WATCH","BUY","STRONG BUY")]
