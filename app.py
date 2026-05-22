@@ -112,7 +112,7 @@ with gc5:
         label_visibility="collapsed", key="filter_opt_topbar")
 with gc6:
     search_q=st.text_input("Search symbol",placeholder="e.g. RELIANCE",
-                            label_visibility="collapsed")
+                        label_visibility="collapsed", key="search_q_topbar")
 
 # ── v15.8: Unified view — no mode toggle, both sections always shown ───────────
 em_min_score = st.session_state.get("em_min_score", 35)

@@ -3,14 +3,17 @@ scanner_tab.py — Scanner tab renderer.
 """
 import pandas as pd
 import streamlit as st
+from datetime import datetime
 from config import (
     PHASE_BRK, PHASE_CONT, PHASE_ENTRY, PHASE_SETUP, PHASE_IDLE,
-    SHORT_CONFIRMED, SHORT_SIGNAL,
+    SHORT_CONFIRMED, SHORT_SIGNAL, SHORT_WATCH, SHORT_SCORE_SIGNAL,
 )
+from universe import SECTOR_MAP
 from data_fetch import fetch_indices, fetch_oi_data
 from risk import signal_is_stale
+from scanner import derive_short_candidates
 from persistence import _get_earnings_cached
-from components import _action_colors, _phase_color, _conf_color
+from components import _action_colors, _phase_color, _conf_color, get_phase_arrow
 from persistence import _result_hash
 
 def render(all_results, vix_val, vix_label, scan_mode, signal_log):
@@ -83,7 +86,7 @@ def render(all_results, vix_val, vix_label, scan_mode, signal_log):
     with fc1:
         filter_opt = st.selectbox("Filter", ["BUY + STRONG BUY","STRONG BUY only","WATCH + BUY","PRE-CONFIRM","All Results"], label_visibility="collapsed", key="filter_opt_scanner_tab")
     with fc2:
-        search_q = st.text_input("Search symbol", placeholder="e.g. RELIANCE", label_visibility="collapsed")
+        search_q = st.text_input("Search symbol", placeholder="e.g. RELIANCE", label_visibility="collapsed", key="search_q_scanner_tab")
 
     if filter_opt=="BUY + STRONG BUY": results=[r for r in results if r["Action"] in ("BUY","STRONG BUY")]
     elif filter_opt=="STRONG BUY only": results=[r for r in results if r["Action"]=="STRONG BUY"]
