@@ -18,6 +18,11 @@ except ImportError:
     _DB_OK = False
 
 from config import _CACHE_DIR, LIQUIDITY_MIN_CR
+from market import compute_breadth
+from data_fetch import get_earnings_dates
+
+_SCAN_CACHE_FILE = _CACHE_DIR / "last_scan_results.json"
+_SCAN_META_FILE  = _CACHE_DIR / "last_scan_meta.json"
 
 def _db_conn():
     if not _DB_OK: raise RuntimeError("psycopg2 not installed")

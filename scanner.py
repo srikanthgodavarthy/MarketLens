@@ -19,19 +19,27 @@ from config import (
     SHORT_SKIP, SHORT_WATCH, SHORT_SIGNAL, SHORT_CONFIRMED,
     SHORT_SCORE_WATCH, SHORT_SCORE_SIGNAL, SHORT_SCORE_CONFIRMED,
     SHORT_HARD_WEIGHT, SHORT_SOFT_WEIGHT,
+    _SECTORS_LOOKUP,
 )
 from universe import SECTOR_MAP
 from data_fetch import (
     batch_incremental_fetch, fetch_async, prefetch_htf_parallel, fetch_vix,
-    fetch_nifty, fetch_indices,
+    fetch_nifty, fetch_indices, _cold_start_needed, _mark_cold_start_done,
 )
-from indicators import stage_a_prefilter, ema, rsi, atr_series, to_nse
+from indicators import (
+    stage_a_prefilter, ema, rsi, atr_series, to_nse,
+    action_label, action_label_with_preconfirm,
+)
 from scoring import (
-    score_stock, compute_breadth_signal, record_phase_transition,
-    compute_rs_ranks, action_label,
+    score_stock, record_phase_transition, phase_transition_conf_bonus,
+    compute_readiness_score, compute_trade_intent, get_failure_confidence_penalty,
+    compute_smart_money_model, compute_accumulation_sequence,
 )
 from patterns import prefetch_mtf_parallel, enrich_with_patterns
-from market import compute_market_regime, get_cached_regime, compute_breadth
+from market import (
+    compute_market_regime, get_cached_regime, compute_breadth,
+    compute_rs_ranks, _52w_return, compute_rs_leadership,
+)
 from risk import (
     liquidity_ok, signal_is_stale, vix_target_mult,
 )
