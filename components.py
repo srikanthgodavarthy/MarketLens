@@ -26,7 +26,9 @@ def _conf_color(conf:int):
     if conf>=60: return "#f39c12"
     if conf>=40: return "#e67e22"
     return "#e74c3c"
-
+def get_phase_arrow(sym: str) -> str:
+    """Phase momentum arrow derived from session state history (stub — returns empty if no data)."""
+    return ""
 # ══════════════════════════════════════════════════════════════════════════════
 # SPEED-8: CARD HASH for render guard
 # ══════════════════════════════════════════════════════════════════════════════
