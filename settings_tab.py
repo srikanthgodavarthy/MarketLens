@@ -6,6 +6,15 @@ from config import MODE_CFG, _CACHE_DIR
 
 def render():
     """Render this tab. Call inside `with tab_X:`."""
+    # Initialise all settings keys with defaults if not yet set
+    from config import LIQUIDITY_MIN_CR
+    if "min_liq_cr"        not in st.session_state: st.session_state["min_liq_cr"]        = LIQUIDITY_MIN_CR
+    if "phase_filter"      not in st.session_state: st.session_state["phase_filter"]      = "All Phases"
+    if "show_illiquid"     not in st.session_state: st.session_state["show_illiquid"]     = False
+    if "account_size"      not in st.session_state: st.session_state["account_size"]      = 500000
+    if "risk_pct"          not in st.session_state: st.session_state["risk_pct"]          = 0.01
+    if "max_capital_pct"   not in st.session_state: st.session_state["max_capital_pct"]   = 0.10
+    if "em_min_score"      not in st.session_state: st.session_state["em_min_score"]      = 35
     st.subheader("Scanner Settings")
     sc1,sc2=st.columns(2)
     with sc1:
