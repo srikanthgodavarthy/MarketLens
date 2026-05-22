@@ -78,7 +78,7 @@ def render(all_results, vix_val, vix_label, scan_mode, signal_log):
     st.markdown('<div style="border-top:1px solid #1e1e40;margin:16px 0;"></div>',unsafe_allow_html=True)
 
     # ── Apply filters ──────────────────────────────────────────────────────────
-    results=list(st.session_state.results)
+    results=list(st.session_state.get("results", []))
     fc1, fc2 = st.columns(2)
     with fc1:
         filter_opt = st.selectbox("Filter", ["BUY + STRONG BUY","STRONG BUY only","WATCH + BUY","PRE-CONFIRM","All Results"], label_visibility="collapsed")
@@ -95,10 +95,10 @@ def render(all_results, vix_val, vix_label, scan_mode, signal_log):
     if search_q: results=[r for r in results if search_q.upper() in r["Symbol"]]
 
     # ── make_card (v14.3 card UI preserved, v15 adds ADX/Squeeze badges) ──────
-    if st.session_state.results:
+    if st.session_state.get("results", []):
         scan_mode_now=st.session_state.scan_mode
         stale_syms=set()
-        for entry in st.session_state.signal_log:
+        for entry in st.session_state.get("signal_log", []):
             if signal_is_stale(entry["timestamp"],entry.get("mode",scan_mode_now)):
                 stale_syms.add(entry["symbol"])
 
@@ -818,7 +818,7 @@ def render(all_results, vix_val, vix_label, scan_mode, signal_log):
             )
 
         ACTIONABLE_PHASES={PHASE_ENTRY,PHASE_CONT,PHASE_BRK}
-        actionable=[r for r in st.session_state.results
+        actionable=[r for r in st.session_state.get("results", [])
                     if r.get("Phase") in ACTIONABLE_PHASES and r["Action"] in ("BUY","STRONG BUY","PRE-CONFIRM")]
         phase_rank={PHASE_BRK:0,PHASE_CONT:1,PHASE_ENTRY:2}
         actionable.sort(key=lambda x:(phase_rank.get(x.get("Phase"),9),-x["Score"]))
@@ -1093,7 +1093,7 @@ def render(all_results, vix_val, vix_label, scan_mode, signal_log):
         # ══════════════════════════════════════════════════════════════════════
 
         # ── Bucket all results by lifecycle group ──────────────────────────────
-        _all_res = st.session_state.results
+        _all_res = st.session_state.get("results", [])
         _buckets = {g: [] for g in ("ACCUMULATING","EMERGING_MOMENTUM",
                                     "BREAKOUT_READY","STRONG_BUY","EXTENDED_RISKY")}
         for _r in _all_res:
@@ -1477,7 +1477,7 @@ def render(all_results, vix_val, vix_label, scan_mode, signal_log):
                 ts=datetime.now().strftime("%Y%m%d_%H%M%S")
                 st.download_button("Export BUY results",csv,
                                    f"NSE_Scan_{st.session_state.scan_mode}_{ts}.csv","text/csv")
-        elif st.session_state.results:
+        elif st.session_state.get("results", []):
             st.warning("No stocks match current filters.")
         else:
             st.info("Select Universe + Mode, then press SCAN.")
