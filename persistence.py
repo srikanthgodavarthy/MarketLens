@@ -198,32 +198,3 @@ def _compute_top5(results: list) -> list:
         reverse=True,
     )
     return candidates[:5]
-
-# Restore results from disk if session_state is empty (e.g. after page refresh)
-if not st.session_state["results"] and not st.session_state["last_scan_meta"]:
-    _cached_results, _cached_meta = _load_scan_cache()
-    if _cached_results:
-        st.session_state["results"]         = _cached_results
-        st.session_state["last_scan_meta"]  = _cached_meta
-        st.session_state["top5"]            = _compute_top5(_cached_results)
-        st.session_state["breadth"]         = compute_breadth(_cached_results)
-        if _cached_meta:
-            st.session_state["scan_mode"]   = _cached_meta.get("mode", "Swing")
-
-# ── v16.1: Pick up background pattern enrichment when ready ───────────────────
-_ENRICH_CACHE = _CACHE_DIR / "enrichment_pending.json"
-if (not st.session_state.get("enrichment_ready", True)
-        and _ENRICH_CACHE.exists()):
-    try:
-        _enrich_age = time.time() - _ENRICH_CACHE.stat().st_mtime
-        if _enrich_age < 600:               # ignore files older than 10 min
-            with open(_ENRICH_CACHE) as _ef:
-                _enriched = json.load(_ef)
-            if _enriched:
-                st.session_state["results"] = _enriched
-                st.session_state["top5"]    = _compute_top5(_enriched)
-                st.session_state["enrichment_ready"] = True
-                _ENRICH_CACHE.unlink(missing_ok=True)
-    except Exception:
-        pass
-
