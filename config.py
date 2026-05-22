@@ -235,6 +235,32 @@ NSE_SESSION_MINUTES = (NSE_CLOSE_HOUR*60+NSE_CLOSE_MIN)-(NSE_OPEN_HOUR*60+NSE_OP
 
 _phase_lock = threading.Lock()
 
-# ══════════════════════════════════════════════════════════════════════════════
-# SPEED-3: PARQUET CACHE  — Historical bars cached; only live tail fetched
-# ══════════════════════════════════════════════════════════════════════════════
+# ── Regime constants (used by scoring.py and market.py) ──────────────────────
+REGIME_TREND        = "TREND"
+REGIME_ROTATION     = "ROTATION"
+REGIME_DISTRIBUTION = "DISTRIBUTION"
+REGIME_PANIC        = "PANIC"
+REGIME_EXPANSION    = "EXPANSION"
+
+_REGIME_ADJUSTMENTS = {
+    REGIME_EXPANSION:    {"score_floor": 45, "target_mult": 1.20, "preconfirm": "aggressive", "sl_mult": 1.0,  "size_pct": 1.00},
+    REGIME_TREND:        {"score_floor": 50, "target_mult": 1.00, "preconfirm": "normal",     "sl_mult": 1.0,  "size_pct": 1.00},
+    REGIME_ROTATION:     {"score_floor": 55, "target_mult": 0.90, "preconfirm": "selective",  "sl_mult": 1.1,  "size_pct": 0.75},
+    REGIME_DISTRIBUTION: {"score_floor": 65, "target_mult": 0.75, "preconfirm": "off",        "sl_mult": 1.2,  "size_pct": 0.50},
+    REGIME_PANIC:        {"score_floor": 80, "target_mult": 0.60, "preconfirm": "off",        "sl_mult": 1.5,  "size_pct": 0.25},
+}
+
+# ── Phase constants missing from config ──────────────────────────────────────
+PHASE_SETUP = "SETUP"
+PHASE_ENTRY = "ENTRY"
+PHASE_BRK   = "BREAKOUT"
+PHASE_EXIT  = "EXIT"
+
+# ── VIX constants ─────────────────────────────────────────────────────────────
+VIX_CAUTION = 20
+VIX_STRESS  = 20
+
+# ── Exit label constants ──────────────────────────────────────────────────────
+EXIT_WATCH_LBL   = "EXIT WATCH"
+EXIT_SIGNAL_LBL  = "EXIT SIGNAL"
+EXIT_CONFIRM_LBL = "EXIT NOW"
