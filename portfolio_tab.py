@@ -9,7 +9,7 @@ from components import _action_colors, _phase_color
 from config import MODE_CFG
 from universe import SECTOR_MAP
 from data_fetch import fetch_vix
-from risk import (
+from config import (
     EXIT_HOLD, EXIT_WATCH_LBL, EXIT_SIGNAL_LBL, EXIT_CONFIRM_LBL, EXIT_COLORS,
 )
 
