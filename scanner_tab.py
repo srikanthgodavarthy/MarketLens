@@ -10,7 +10,8 @@ from config import (
 from data_fetch import fetch_indices, fetch_oi_data
 from risk import signal_is_stale
 from persistence import _get_earnings_cached
-from components import _action_colors, _phase_color, _conf_color, _result_hash
+from components import _action_colors, _phase_color, _conf_color
+from persistence import _result_hash
 
 def render(all_results, vix_val, vix_label, scan_mode, signal_log):
     """Render this tab. Call inside `with tab_X:`."""
