@@ -167,7 +167,7 @@ if scan_btn:
     with st.spinner(f"Scanning {universe_opt} ({n} stocks) · {mode_opt}…"):
         results,rejected,liq_skipped=run_scan(
             symbols,mode_opt,prog,stat,
-            vix_val=vix_val,min_liq_cr=st.session_state.min_liq_cr,
+            vix_val=vix_val,min_liq_cr=st.session_state.get("min_liq_cr", 10),
         )
     elapsed=time.time()-t0
     st.session_state.results=results
